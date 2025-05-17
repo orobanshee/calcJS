@@ -28,18 +28,62 @@ document.querySelector('.buttons').onclick = (event) => {
 
     const key = event.target.textContent;
 
+    // якщо натиснута кнопка 9-0
+
     if (digit.includes(key)) {
         if (b ==='' && sign === '') {
         a += key;
-        console.log(a, b, sign)
+        // console.log(a, b, sign)
         out.textContent = a;
         }
+        else if (a!=='' && b!=='' && finish) {
+            b = key; 
+            finish = false; 
+            out.textContent = b;
+        }
+        else {
+            b += key;
+            out.textContent = b;
+        }
+        console.log(a, b, sign)
+        return;
     }
+
+    //якщо натиснута кнопка + - / *
 
     if (action.includes(key)) {
         sign = key;
         out.textContent = sign;
         console.log (a, b, sign);
         return;
-        }   
+        }
+        // натиснули = 
+        if (key === '=') {
+            if (b ==='') b = a;
+            switch (sign) {
+                case "+":
+                    a = (+a) + (+b);
+                    break;
+                case "-":
+                    a = a - b;
+                    break;
+                case "X":
+                    a = a * b;
+                    break;
+                case "/":
+                    if (b === "0") {
+                        out.textContent = 'infinity'
+                        a=''
+                        b=''
+                        sign = ''
+                        return;
+                    }
+                    a = a / b;
+                    break;
+            }
+            finish = true;
+            out.textContent = a;
+            console.log (a, b, sign);
+
+        }
 }
